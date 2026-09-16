@@ -6,7 +6,7 @@ usage() {
     'Usage: ./verify.sh [--image IMAGE] [--vimrc FICHIER] [--local-plugin DOSSIER]' \
     '' \
     'Vérifie la présence, le contenu non vide et le chargement des fichiers Vim.' \
-    'Image par défaut : debian-vim:vim-plug' \
+    'Image par défaut : vim-plug:vim-hf-stt' \
     '--vimrc : référence à comparer, par défaut le .vimrc voisin de ce script.' \
     '--local-plugin : monte un plugin en lecture seule sous le nom de son dossier.' \
     "Exemple : ./verify.sh --local-plugin \"\$HOME/.config/vim-with-vimplug/plugins/vim-ollama\"" \
@@ -14,7 +14,7 @@ usage() {
 }
 
 script_dir=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd -P)
-image=debian-vim:vim-plug
+image=vim-plug:vim-hf-stt
 reference_vimrc=$script_dir/.vimrc
 plugin_dir=
 plugin_name=

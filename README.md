@@ -1,4 +1,4 @@
-# debian-vim:vim-plug
+# vim-plug:vim-hf-stt
 
 Ce projet Docker installe une image Debian 12 minimale avec Vim (version avec support Python3) et Python3 via apt, puis teste si le plugin Vim fonctionne correctement.
 
@@ -22,12 +22,12 @@ L'objectif de ce projet est de fournir un environnement Vim prêt à l'emploi, i
 
 1. **Construire l'image Docker** :
    ```bash
-   docker build -t debian-vim:vim-plug .
+   docker build -t vim-plug:vim-hf-stt .
    ```
 
 2. **Lancer le conteneur** :
    ```bash
-   docker run -it --rm debian-vim:vim-plug
+   docker run -it --rm vim-plug:vim-hf-stt
    ```
 
 Vim se lance automatiquement avec la configuration et les plugins définis dans `.vimrc`.
@@ -79,7 +79,7 @@ Pour simplifier la construction de l’image Docker, un script `build.sh` est fo
 Ce script :
 - Construit l’image Docker en utilisant le dossier du script comme contexte, quel que soit le dossier courant du terminal.
 - Reconstruit toujours sans cache (`--no-cache` est appliqué en permanence) et accepte des options supplémentaires transmises à `docker build`, par exemple `./build.sh --build-arg VIM_PLUG_REF=<commit>`.
-- Attribue le tag `debian-vim:vim-plug` à l’image générée.
+- Attribue le tag `vim-plug:vim-hf-stt` à l’image générée.
 - Lance ensuite `verify.sh` et renvoie un code non nul si la construction ou les contrôles échouent.
 
 Le Dockerfile utilise `DEBIAN_FRONTEND=noninteractive` pour APT. L’installateur de build `install-plugins.sh` télécharge vim-plug si son fichier est absent ou vide, puis installe les plugins manquants avec `PlugInstall --sync`. Il vérifie les dépôts Git et les scripts `.vim` non vides. Les échecs de téléchargement, les erreurs Vim et une sortie prématurée bloquent la suite.
@@ -102,7 +102,7 @@ Le script indépendant `verify.sh` teste l’image existante, sans rebuild, inst
 
 ```bash
 ./verify.sh
-./verify.sh --image debian-vim:vim-plug
+./verify.sh --image vim-plug:vim-hf-stt
 ```
 
 Les contrôles portent d’abord sur les fichiers :
@@ -148,7 +148,7 @@ shellcheck verify.sh
 Pour faciliter le lancement du conteneur Docker avec la bonne configuration utilisateur et le montage de plugins externes, un script `run.sh` est fourni à la racine du projet.
 
 Ce script :
-- Lance le conteneur Docker avec l’image `debian-vim:vim-plug`.
+- Lance le conteneur Docker avec l’image `vim-plug:vim-hf-stt`.
 - Monte automatiquement le dossier courant du terminal dans le conteneur, ce qui permet d’éditer et de sauvegarder directement les fichiers de ce dossier sur votre machine hôte.
 - Ne monte aucun plugin local par défaut. L’option `--local-plugin DOSSIER`, placée avant les arguments Vim, monte explicitement les sources d’un plugin en lecture seule dans `/home/appuser/.vim/pack/test/start/<nom-du-dossier>`.
 - Ne crée, ne supprime et ne remplit aucun dossier de plugin. Si le dossier demandé est absent, totalement vide, illisible ou impossible à parcourir, le lancement échoue. Un dossier non vide ne garantit pas un plugin fonctionnel : utilisez aussi `verify.sh --local-plugin DOSSIER`.

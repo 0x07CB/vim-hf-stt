@@ -4,7 +4,7 @@ set -euo pipefail
 PLUGIN_DIR=
 HOST_DIR="$(pwd -P)" # <-- Dossier courant du terminal
 USERNAME=appuser
-IMAGE_NAME=debian-vim:vim-plug
+IMAGE_NAME=vim-plug:vim-hf-stt
 
 while (($#)); do
   case "$1" in

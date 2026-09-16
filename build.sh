@@ -8,5 +8,5 @@ if ! command -v docker >/dev/null; then
   exit 1
 fi
 
-docker build --no-cache -t debian-vim:vim-plug "$@" "$SCRIPT_DIR"
-bash "$SCRIPT_DIR/verify.sh" --image debian-vim:vim-plug
+docker build --no-cache -t vim-plug:vim-hf-stt "$@" "$SCRIPT_DIR"
+bash "$SCRIPT_DIR/verify.sh" --image vim-plug:vim-hf-stt
