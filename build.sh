@@ -10,3 +10,4 @@ fi
 
 docker build --no-cache -t vim-plug:vim-hf-stt "$@" "$SCRIPT_DIR"
 bash "$SCRIPT_DIR/verify.sh" --image vim-plug:vim-hf-stt
+bash "$SCRIPT_DIR/test.sh" --image vim-plug:vim-hf-stt --mode all

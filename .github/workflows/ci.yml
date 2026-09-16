@@ -1,0 +1,44 @@
+name: CI
+
+'on':
+  pull_request:
+  push:
+    branches:
+      - '**'
+    tags:
+      - 'v*'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - name: Checkout v4.2.2
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          fetch-depth: 0
+          fetch-tags: true
+          persist-credentials: false
+          set-safe-directory: false
+      - name: Validate shell scripts
+        run: |
+          for script in ./*.sh tests/*.sh; do
+            bash -n "$script"
+          done
+          shellcheck ./*.sh tests/*.sh
+      - name: Build image and test both plugin paths
+        run: ./build.sh
+      - name: Test harness regressions
+        run: bash tests/test-harness.sh
+      - name: Validate existing release tag
+        if: github.ref_type == 'tag'
+        env:
+          RELEASE_TAG: ${{ github.ref_name }}
+        run: ./release.sh --check "$RELEASE_TAG"
