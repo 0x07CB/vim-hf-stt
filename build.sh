@@ -1,0 +1,12 @@
+#!/bin/bash
+set -euo pipefail
+
+SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd -P)"
+
+if ! command -v docker >/dev/null; then
+  printf 'ERREUR : Docker est introuvable.\n' >&2
+  exit 1
+fi
+
+docker build --no-cache -t debian-vim:vim-plug "$@" "$SCRIPT_DIR"
+bash "$SCRIPT_DIR/verify.sh" --image debian-vim:vim-plug
