@@ -75,7 +75,7 @@ Plug 'skywind3000/vim-quickui'
 " Python plugins
 Plug 'vim-scripts/indentpython.vim'
 Plug 'hdima/python-syntax'
-
+Plug '0x07CB/vim-hf-stt'
 
 call plug#end()
 
